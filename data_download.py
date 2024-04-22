@@ -16,5 +16,5 @@ def calculate_and_display_average_price(data):
     '''вычисляет и выводит среднюю цену закрытия акций
     за заданный период.
     '''
-    average_period = data['Close'].mean()
-    return print(f'Average closing price of shares for a given period: {average_period}')
+    average_price = data['Close'].mean()
+    return print(f'Average closing price of shares for a given period: {average_price}')

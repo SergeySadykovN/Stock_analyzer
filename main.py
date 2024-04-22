@@ -22,7 +22,7 @@ def main():
     dplt.create_and_save_plot(stock_data, ticker, period)
 
     # Add average closing price
-    stock_data = dd.calculate_and_display_average_price(stock_data)
+    closing_aver_price = dd.calculate_and_display_average_price(stock_data)
 
 
 if __name__ == "__main__":
