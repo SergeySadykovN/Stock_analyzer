@@ -20,7 +20,7 @@ def calculate_and_display_average_price(data):
     за заданный период.
     '''
     average_price = data['Close'].mean()
-    return f'Average closing price of shares for a given period: {average_price}'
+    return f'\nAverage closing price of shares for a given period: {average_price}'
 
 
 def notify_if_strong_fluctuations(data, ticker, period, threshold=10):
@@ -43,7 +43,7 @@ def notify_if_strong_fluctuations(data, ticker, period, threshold=10):
     fluctuation = round((((max_price - min_price) / min_price) * 100), 1)
 
     if fluctuation > threshold:
-        print(f'There is a strong fluctuation: {fluctuation} \n'
+        print(f'\nThere is a strong fluctuation: {fluctuation} \n'
               f'in the closing price of the shares: {ticker} \n'
               f'during the mentioned period: {period} ')
 
