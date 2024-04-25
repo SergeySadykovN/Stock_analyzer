@@ -15,12 +15,13 @@ def add_moving_average(data, window_size=5):
     return data
 
 
-def calculate_and_display_average_price(data):
+def calculate_and_display_average_price(data, period):
     '''Вычисляет и выводит среднюю цену закрытия акций
     за заданный период.
     '''
     average_price = data['Close'].mean()
-    return f'\nAverage closing price of shares for a given period: {average_price}'
+    return (f'\nAverage closing price of shares {average_price}\n'
+            f'for a given period: {period}')
 
 
 def notify_if_strong_fluctuations(data, ticker, period, threshold=10):
@@ -46,4 +47,3 @@ def notify_if_strong_fluctuations(data, ticker, period, threshold=10):
         print(f'\nThere is a strong fluctuation: {fluctuation} \n'
               f'in the closing price of the shares: {ticker} \n'
               f'during the mentioned period: {period} ')
-

@@ -22,7 +22,7 @@ def main():
     dplt.create_and_save_plot(stock_data, ticker, period)
 
     # Add average closing price
-    print(dd.calculate_and_display_average_price(stock_data))
+    print(dd.calculate_and_display_average_price(stock_data, period))
 
     # Notifications if fluctuations exceed the set threshold
     dd.notify_if_strong_fluctuations(stock_data, ticker, period)
