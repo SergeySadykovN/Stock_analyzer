@@ -27,6 +27,10 @@ def main():
     # Notifications if fluctuations exceed the set threshold
     dd.notify_if_strong_fluctuations(stock_data, ticker, period)
 
+    # Export data to csv
+    filename = f'Shares_{ticker}_Period_{period}_stock_data.csv'
+    dd.export_data_to_csv(stock_data, filename)
+
 
 if __name__ == "__main__":
     main()
