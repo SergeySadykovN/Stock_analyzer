@@ -25,7 +25,7 @@ def calculate_and_display_average_price(data: pd.DataFrame, period: str):
             f'for a given period: {period}')
 
 
-def notify_if_strong_fluctuations(data: pd.DataFrame, ticker: object, period: str, threshold=10):
+def notify_if_strong_fluctuations(data: pd.DataFrame, ticker: str, period: str, threshold=10):
     '''
     Анализирует данные и уведомляет пользователя,
     если цена акций колебалась более чем на заданный процент за период.
@@ -50,7 +50,7 @@ def notify_if_strong_fluctuations(data: pd.DataFrame, ticker: object, period: st
               f'during the mentioned period: {period} ')
 
 
-def export_data_to_csv(data: pd.DataFrame, filename: object) -> object:
+def export_data_to_csv(data: pd.DataFrame, filename: str) -> str:
     '''
     Экспорт данных в CSV формате
     :param data: df: pd.DataFrame
