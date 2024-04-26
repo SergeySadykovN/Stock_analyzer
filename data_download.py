@@ -1,7 +1,8 @@
+import pandas as pd
 import yfinance as yf
 
 
-def fetch_stock_data(ticker, period='1mo'):
+def fetch_stock_data(ticker: str, period='1mo'):
     ''' Загрузка исторических данных об акциях за период.
     по умолчанию период 1 месяц'''
     stock = yf.Ticker(ticker)
@@ -9,13 +10,13 @@ def fetch_stock_data(ticker, period='1mo'):
     return data
 
 
-def add_moving_average(data, window_size=5):
+def add_moving_average(data: pd.DataFrame, window_size=5):
     '''Расчет скользящего среднего цены закрытия акций '''
     data['Moving_Average'] = data['Close'].rolling(window=window_size).mean()
     return data
 
 
-def calculate_and_display_average_price(data, period):
+def calculate_and_display_average_price(data: pd.DataFrame, period: str):
     '''Вычисляет и выводит среднюю цену закрытия акций
     за заданный период.
     '''
@@ -24,7 +25,7 @@ def calculate_and_display_average_price(data, period):
             f'for a given period: {period}')
 
 
-def notify_if_strong_fluctuations(data, ticker, period, threshold=10):
+def notify_if_strong_fluctuations(data: pd.DataFrame, ticker: object, period: str, threshold=10):
     '''
     Анализирует данные и уведомляет пользователя,
     если цена акций колебалась более чем на заданный процент за период.
@@ -49,10 +50,10 @@ def notify_if_strong_fluctuations(data, ticker, period, threshold=10):
               f'during the mentioned period: {period} ')
 
 
-def export_data_to_csv(data, filename):
+def export_data_to_csv(data: pd.DataFrame, filename: object) -> object:
     '''
     Экспорт данных в CSV формате
-    :param data: DataFrame
+    :param data: df: pd.DataFrame
     :param filename: str
     :return: *.csv
     '''
