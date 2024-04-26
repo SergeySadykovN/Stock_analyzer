@@ -50,7 +50,7 @@ def notify_if_strong_fluctuations(data: pd.DataFrame, ticker: str, period: str, 
               f'during the mentioned period: {period} ')
 
 
-def export_data_to_csv(data: pd.DataFrame, filename: str) -> str:
+def export_data_to_csv(data: pd.DataFrame, filename: str):
     '''
     Экспорт данных в CSV формате
     :param data: df: pd.DataFrame
