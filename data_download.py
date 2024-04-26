@@ -1,10 +1,30 @@
+import logging
+
 import pandas as pd
 import yfinance as yf
+import logging
+
+logger = logging.getLogger('Logger')
+formatting = '[%(asctime)s] [%(levelname)s]: %(message)s'
+logging.basicConfig(level=logging.INFO, format=formatting)
+success_log = 'success.log'  # INFO
+warning_log = 'warning.log'  # WARNING
+error_log = 'error.log'  # ERROR
+
+
+def log_write_to_file(file_name: str, message: str):
+    '''запись в файл лога'''
+    with open(file_name, 'a') as file:
+        file.write(message + '\n')
 
 
 def fetch_stock_data(ticker: str, period='1mo'):
     ''' Загрузка исторических данных об акциях за период.
-    по умолчанию период 1 месяц'''
+    по умолчанию период 1 месяц
+    :param ticker: str
+    :param period: str
+    :return : pd.DataFrame
+    '''
     stock = yf.Ticker(ticker)
     data = stock.history(period=period)
     return data
@@ -32,13 +52,13 @@ def notify_if_strong_fluctuations(data: pd.DataFrame, ticker: str, period: str, 
      Функция будет вычислять максимальное и минимальное значения цены закрытия и сравнивать разницу с заданным порогом.
      Если разница превышает порог (по умолчанию threshold = 10), пользователь получает уведомление
     :param data: DataFrame from fetch_stock_data
-    :param ticker: name of shares
-    :param period: period from fetch_stock_data
+    :param ticker: str name of shares
+    :param period: str period from fetch_stock_data
     :param threshold: int
     :return: print fluctuation with ticker and period
     '''
 
-    max_price = data['Close'].max() # макс цена закрытия
+    max_price = data['Close'].max()  # макс цена закрытия
     min_price = data['Close'].min()  # мин цена закрытия
 
     # вычисляем колебания  с округлением до десятых
@@ -57,5 +77,10 @@ def export_data_to_csv(data: pd.DataFrame, filename: str):
     :param filename: str
     :return: *.csv
     '''
-    data.to_csv(filename)
-    print(f'\nData saved to {filename}')
+    try:
+        data.to_csv(filename)
+        log_write_to_file(success_log, str(filename))
+        print(f'\nData saved to {filename}')
+    except Exception as e:
+        logging.error('Export failed')
+        log_write_to_file(warning_log, str(filename) + ':' + str(e))
