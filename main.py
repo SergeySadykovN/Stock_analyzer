@@ -27,6 +27,10 @@ def main():
     # Notifications if fluctuations exceed the set threshold
     dd.notify_if_strong_fluctuations(stock_data, ticker, period)
 
+    # Calculation RSI, MACD
+    dd.calc_rsi(stock_data)
+    dd.calc_macd(stock_data)
+
     # Export data to csv
     filename = f'Shares_{ticker}_Period_{period}_stock_data.csv'
     dd.export_data_to_csv(stock_data, filename)

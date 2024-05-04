@@ -84,3 +84,31 @@ def export_data_to_csv(data: pd.DataFrame, filename: str):
     except Exception as e:
         logging.error('Export failed')
         log_write_to_file(warning_log, str(filename) + ':' + str(e))
+
+
+def calc_rsi(data: pd.DataFrame):
+    ''' Функция рачета RSI
+    :param data: pd.DataFrame
+    :return: data
+    '''
+    # Изменение цены
+    delta = data['Close'].diff()
+    up_ema = (delta.where(delta > 0, 0)).rolling(window=14).mean()  # прирост цены (wimdow=14 recomend)
+    down_ema = (-delta.where(delta < 0, 0)).rolling(window=14).mean()  # падение цены (wimdow=14 recomend)
+    rsi = 100 - (100 / (1 + (up_ema / down_ema)))  # расчет RSI
+    data['RSI'] = rsi  # добавляем RSI  в DataFrame
+    return data
+    # print(data)
+
+
+def calc_macd(data: pd.DataFrame):
+    '''Функция расчета MACD
+    :param data: pd..DataFrame
+    :return: data
+    '''
+    short_ema = data['Close'].ewm(span=12).mean()
+    long_ema = data['Close'].ewm(span=30).mean()
+    data['MACD'] = short_ema - long_ema
+    data['Value'] = data['MACD'].ewm(span=10).mean()
+    return data
+    # print(data)
