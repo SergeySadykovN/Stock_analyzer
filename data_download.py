@@ -91,14 +91,14 @@ def calc_rsi(data: pd.DataFrame):
     :param data: pd.DataFrame
     :return: data
     '''
-    # Изменение цены
-    delta = data['Close'].diff()
-    up_ema = (delta.where(delta > 0, 0)).rolling(window=14).mean()  # прирост цены (wimdow=14 recomend)
-    down_ema = (-delta.where(delta < 0, 0)).rolling(window=14).mean()  # падение цены (wimdow=14 recomend)
+    delta = data['Close'].diff() # Изменение цены
+    up_ema = delta.clip(lower=0).rolling(window=14).mean()  # прирост цены (wimdow=14 recomend)
+    down_ema = -1 * delta.clip(upper=0).rolling(window=14).mean()  # падение цены (wimdow=14 recomend)
     rsi = 100 - (100 / (1 + (up_ema / down_ema)))  # расчет RSI
     data['RSI'] = rsi  # добавляем RSI  в DataFrame
     return data
-    # print(data)
+
+    # print(data['RSI'].values)
 
 
 def calc_macd(data: pd.DataFrame):
@@ -110,5 +110,5 @@ def calc_macd(data: pd.DataFrame):
     long_ema = data['Close'].ewm(span=30).mean()
     data['MACD'] = short_ema - long_ema
     data['Value'] = data['MACD'].ewm(span=10).mean()
-    return data
+    # return data
     # print(data)

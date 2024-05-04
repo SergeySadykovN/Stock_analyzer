@@ -18,9 +18,6 @@ def main():
     # Add moving average to the data
     stock_data = dd.add_moving_average(stock_data)
 
-    # Plot the data
-    dplt.create_and_save_plot(stock_data, ticker, period)
-
     # Add average closing price
     print(dd.calculate_and_display_average_price(stock_data, period))
 
@@ -30,6 +27,9 @@ def main():
     # Calculation RSI, MACD
     dd.calc_rsi(stock_data)
     dd.calc_macd(stock_data)
+
+    # Plot the data
+    dplt.create_and_save_plot(stock_data, ticker, period)
 
     # Export data to csv
     filename = f'Shares_{ticker}_Period_{period}_stock_data.csv'
