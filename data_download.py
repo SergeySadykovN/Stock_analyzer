@@ -1,15 +1,5 @@
-import logging
-
 import pandas as pd
 import yfinance as yf
-import logging
-
-logger = logging.getLogger('Logger')
-formatting = '[%(asctime)s] [%(levelname)s]: %(message)s'
-logging.basicConfig(level=logging.INFO, format=formatting)
-success_log = 'success.log'  # INFO
-warning_log = 'warning.log'  # WARNING
-error_log = 'error.log'  # ERROR
 
 
 def log_write_to_file(file_name: str, message: str):
@@ -18,15 +8,20 @@ def log_write_to_file(file_name: str, message: str):
         file.write(message + '\n')
 
 
-def fetch_stock_data(ticker: str, period='1mo'):
+def fetch_stock_data(ticker: str, period='1mo', start: [str] = None, end: [str] = None):
     ''' Загрузка исторических данных об акциях за период.
     по умолчанию период 1 месяц
     :param ticker: str
     :param period: str
+    :param start: str
+    :param end: str
     :return : pd.DataFrame
     '''
     stock = yf.Ticker(ticker)
-    data = stock.history(period=period)
+    if start is not None:
+        data = stock.history(period=period, start=start, end=end)
+    else:
+        data = stock.history(period=period)
     return data
 
 
@@ -77,13 +72,9 @@ def export_data_to_csv(data: pd.DataFrame, filename: str):
     :param filename: str
     :return: *.csv
     '''
-    try:
-        data.to_csv(filename)
-        log_write_to_file(success_log, str(filename))
-        print(f'\nData saved to {filename}')
-    except Exception as e:
-        logging.error('Export failed')
-        log_write_to_file(warning_log, str(filename) + ':' + str(e))
+    data.to_csv(filename)
+    log_write_to_file(success_log, str(filename))
+    print(f'\nData saved to {filename}')
 
 
 def calc_rsi(data: pd.DataFrame):
@@ -91,7 +82,7 @@ def calc_rsi(data: pd.DataFrame):
     :param data: pd.DataFrame
     :return: data
     '''
-    delta = data['Close'].diff() # Изменение цены
+    delta = data['Close'].diff()  # Изменение цены
     up_ema = delta.clip(lower=0).rolling(window=14).mean()  # прирост цены (wimdow=14 recomend)
     down_ema = -1 * delta.clip(upper=0).rolling(window=14).mean()  # падение цены (wimdow=14 recomend)
     rsi = 100 - (100 / (1 + (up_ema / down_ema)))  # расчет RSI
@@ -110,5 +101,5 @@ def calc_macd(data: pd.DataFrame):
     long_ema = data['Close'].ewm(span=30).mean()
     data['MACD'] = short_ema - long_ema
     data['Value'] = data['MACD'].ewm(span=10).mean()
-    # return data
+    return data
     # print(data)

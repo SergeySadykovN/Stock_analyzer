@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, filename: str=None):
+def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, filename: str = None):
     plt.figure(figsize=(10, 6))
 
     if 'Date' not in data:
