@@ -73,7 +73,7 @@ def export_data_to_csv(data: pd.DataFrame, filename: str):
     :return: *.csv
     '''
     data.to_csv(filename)
-    log_write_to_file(success_log, str(filename))
+    # log_write_to_file(success_log, str(filename))
     print(f'\nData saved to {filename}')
 
 

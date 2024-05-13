@@ -1,6 +1,7 @@
 import data_download as dd
 import data_plotting as dplt
 import logging
+from matplotlib import style, pyplot
 
 logger = logging.getLogger('Logger')
 formatting = '[%(asctime)s] [%(levelname)s]: %(message)s'
@@ -52,8 +53,9 @@ def main():
     dd.calc_rsi(stock_data)
     dd.calc_macd(stock_data)
 
-    # Plot the data
-    dplt.create_and_save_plot(stock_data, ticker, period)
+    # Plot the data with a choice of chart styles
+    style_choice = input(f'Доступные стили графиков: {pyplot.style.available} \nВыберите стиль графика: ')
+    dplt.create_and_save_plot(stock_data, ticker, period, style_choice)
 
     # Export data to csv
     filename = f'Shares_{ticker}_Period_{period}_{start_period}-{end_period}_stock_data.csv'
