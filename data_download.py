@@ -36,8 +36,8 @@ def calculate_and_display_average_price(data: pd.DataFrame, period: str):
     за заданный период.
     '''
     average_price = data['Close'].mean()
-    return (f'\nAverage closing price of shares {average_price}\n'
-            f'for a given period: {period}')
+    return (f'\nСредняя цена закрытия акций {average_price}\n'
+            f'за период: {period}')
 
 
 def notify_if_strong_fluctuations(data: pd.DataFrame, ticker: str, period: str, threshold=10):
@@ -60,9 +60,9 @@ def notify_if_strong_fluctuations(data: pd.DataFrame, ticker: str, period: str, 
     fluctuation = round((((max_price - min_price) / min_price) * 100), 1)
 
     if fluctuation > threshold:
-        print(f'\nThere is a strong fluctuation: {fluctuation} \n'
-              f'in the closing price of the shares: {ticker} \n'
-              f'during the mentioned period: {period} ')
+        print(f'\nНаблюдаются сильные колебания: {fluctuation} \n'
+              f'в цена закрытия акций: {ticker} \n'
+              f'за указанный период: {period} ')
 
 
 def export_data_to_csv(data: pd.DataFrame, filename: str):
@@ -74,7 +74,7 @@ def export_data_to_csv(data: pd.DataFrame, filename: str):
     '''
     data.to_csv(filename)
     # log_write_to_file(success_log, str(filename))
-    print(f'\nData saved to {filename}')
+    print(f'\nДанные сохраняются в {filename}')
 
 
 def calc_rsi(data: pd.DataFrame):
@@ -103,3 +103,12 @@ def calc_macd(data: pd.DataFrame):
     data['Value'] = data['MACD'].ewm(span=10).mean()
     return data
     # print(data)
+
+
+def calc_deviation(data: pd.DataFrame):
+    ''' Функция расчета стандартного отклонения
+    :param data: pd..DataFrame
+    :return: data
+    '''
+    st_deviation = data['Close'].std(ddof=1)
+    print(f'Стандартное отклонение цены закрытия {st_deviation}')

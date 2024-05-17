@@ -46,6 +46,9 @@ def main():
     # Add average closing price
     print(dd.calculate_and_display_average_price(stock_data, period))
 
+    # Calc standard deviation
+    dd.calc_deviation(stock_data)
+
     # Notifications if fluctuations exceed the set threshold
     dd.notify_if_strong_fluctuations(stock_data, ticker, period)
 
