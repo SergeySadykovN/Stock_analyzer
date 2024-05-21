@@ -8,8 +8,12 @@ pd.options.plotting.backend = "plotly"
 
 def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, style_choice: str = None,
                          filename: str = None, ):
-    plt.figure(figsize=(10, 6))
-    plt.style.use(style_choice)
+    # применяем стиль к графику, по умолчанию стандартный
+    if style_choice:
+        plt.figure(figsize=(10, 6))
+        plt.style.use(style_choice)
+    else:
+        plt.style.use('classic')
 
     if 'Date' not in data:
         if pd.api.types.is_datetime64_any_dtype(data.index):
@@ -50,4 +54,3 @@ def view_plotly(data: pd.DataFrame):
         plt.show()
     else:
         log.warning_log("Некорректный ввод")
-

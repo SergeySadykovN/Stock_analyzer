@@ -44,7 +44,7 @@ def main():
     dd.calc_macd(stock_data)
 
     # Plot the data with a choice of chart styles
-    style_choice = input(f'Доступные стили графиков: {pyplot.style.available} \nВыберите стиль графика: ')
+    style_choice = input(f'Доступные стили графиков: {pyplot.style.available} \nВыберите стиль графика или нажмите enter, чтобы применить стиль по умолчанию: ')
     dplt.create_and_save_plot(stock_data, ticker, period, style_choice)
 
     # Plot with Plotly
