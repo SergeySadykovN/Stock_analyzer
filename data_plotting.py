@@ -6,7 +6,7 @@ import log
 pd.options.plotting.backend = "plotly"
 
 
-def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, style_choice: str = '_classic_test_patch',
+def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, style_choice: str = None,
                          filename: str = None, ):
     plt.figure(figsize=(10, 6))
     plt.style.use(style_choice)
@@ -43,7 +43,7 @@ def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, style_cho
 
 def view_plotly(data: pd.DataFrame):
     graph = data.plot()
-    type_view_graph = input("Вид графика (0 - в окне, 1 - в браузере): ")
+    type_view_graph = input("Вид графика (0 = в окне, 1 = интерактивный в браузере): ")
     if type_view_graph == '1':
         graph.show()
     elif type_view_graph == '0':
