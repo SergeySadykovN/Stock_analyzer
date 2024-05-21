@@ -1,8 +1,13 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import log
+
+# Установка Plotly как бэкенда для графиков в pandas
+pd.options.plotting.backend = "plotly"
 
 
-def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, style_choice: str, filename: str = None, ):
+def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, style_choice: str = '_classic_test_patch',
+                         filename: str = None, ):
     plt.figure(figsize=(10, 6))
     plt.style.use(style_choice)
 
@@ -14,7 +19,7 @@ def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, style_cho
             plt.plot(dates, data['RSI'].values, label='RSI')
             plt.plot(dates, data['MACD'].values, label='MACD')
         else:
-            print("Информация о дате отсутствует или не имеет распознаваемого формата.")
+            log.warning_log("Информация о дате отсутствует или не имеет распознаваемого формата.")
             return
     else:
         if not pd.api.types.is_datetime64_any_dtype(data['Date']):
@@ -34,3 +39,15 @@ def create_and_save_plot(data: pd.DataFrame, ticker: str, period: str, style_cho
 
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
+
+
+def view_plotly(data: pd.DataFrame):
+    graph = data.plot()
+    type_view_graph = input("Вид графика (0 - в окне, 1 - в браузере): ")
+    if type_view_graph == '1':
+        graph.show()
+    elif type_view_graph == '0':
+        plt.show()
+    else:
+        log.warning_log("Некорректный ввод")
+

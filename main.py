@@ -1,20 +1,7 @@
 import data_download as dd
 import data_plotting as dplt
-import logging
-from matplotlib import style, pyplot
-
-logger = logging.getLogger('Logger')
-formatting = '[%(asctime)s] [%(levelname)s]: %(message)s'
-logging.basicConfig(level=logging.INFO, format=formatting)
-success_log = 'success.log'  # INFO
-warning_log = 'warning.log'  # WARNING
-error_log = 'error.log'  # ERROR
-
-
-def log_write_to_file(file_name: str, message: str):
-    '''запись в файл лога'''
-    with open(file_name, 'a', encoding='utf8') as file:
-        file.write(message + '\n')
+from matplotlib import pyplot
+import log
 
 
 def main():
@@ -26,8 +13,8 @@ def main():
 
     ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
     if not ticker:
-        logging.error(f'Не выбран тикер')
-        log_write_to_file(error_log, message=f'Не выбран тикер')
+        log.warning_log(f'Не выбран тикер')
+        log.log_write_to_file(log.error_log, message=f'Не выбран тикер')
 
     period = input("Введите период для данных (например, '1mo' для одного месяца) "
                    "или нажмите enter и введите даты начала и конца периода : ")
@@ -59,6 +46,9 @@ def main():
     # Plot the data with a choice of chart styles
     style_choice = input(f'Доступные стили графиков: {pyplot.style.available} \nВыберите стиль графика: ')
     dplt.create_and_save_plot(stock_data, ticker, period, style_choice)
+
+    # Plot with Plotly
+    dplt.view_plotly(stock_data)
 
     # Export data to csv
     filename = f'Shares_{ticker}_Period_{period}_{start_period}-{end_period}_stock_data.csv'
